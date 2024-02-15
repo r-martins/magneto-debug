@@ -7,9 +7,13 @@
 $installer = $this;
 
 $installer->startSetup();
-
+$tableName = $installer->getTable('sheep_debug/request_info');
+if ($installer->getConnection()->isTableExists($tableName)) {
+    $installer->endSetup();
+    return;
+}
 $table = $installer->getConnection()
-    ->newTable($installer->getTable('sheep_debug/request_info'))
+    ->newTable($tableName)
     ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'identity' => true,
         'nullable' => false,
